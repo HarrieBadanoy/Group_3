@@ -21,39 +21,60 @@ public class TextEncryption {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int shift = 5;
 
         while (true) {
-            System.out.println("---------------------");
+            System.out.println("\n---------------------");
             System.out.println("1. Encrypt");
             System.out.println("2. Decrypt");
             System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter your choice (1-3): ");
 
             String input = scanner.nextLine();
 
             switch (input) {
                 case "1":
-                    System.out.print("\nEnter text to encrypt: ");
+                    int shift = getValidShift(scanner);
+                    System.out.print("Enter text to encrypt: ");
                     String textToEncrypt = scanner.nextLine();
                     System.out.println("Encrypted: " + encrypt(textToEncrypt, shift));
                     break;
 
                 case "2":
-                    System.out.print("\nEnter text to decrypt: ");
+                    shift = getValidShift(scanner);
+                    System.out.print("Enter text to decrypt: ");
                     String textToDecrypt = scanner.nextLine();
                     System.out.println("Decrypted: " + decrypt(textToDecrypt, shift));
                     break;
 
                 case "3":
+
                     System.out.println("Exiting the program...");
                     scanner.close();
                     return;
+
                 default:
-                    System.out.println("Invalid input! Try again.");
+                    System.out.println("Invalid choice! Please select a valid option (1, 2, or 3).");
                     break;
             }
         }
     }
-}
 
+    private static int getValidShift(Scanner scanner) {
+        int shift = -1;
+        while (true) {
+            System.out.print("\nEnter the shift value (1-25): ");
+            try {
+                String input = scanner.nextLine();
+                shift = Integer.parseInt(input);
+                if (shift < 1 || shift > 25) {
+                    System.out.println("Shift value must be between 1 and 25. Please enter a valid shift value.");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a valid integer for the shift value.");
+            }
+        }
+        return shift;
+    }
+}
